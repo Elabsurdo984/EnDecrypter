@@ -23,11 +23,11 @@ Clona el repositorio o descarga el archivo fuente.
 
 Compila el archivo fuente con el compilador de tu elección. Por ejemplo, si usas GCC:
 
-g++ -o (El nombre que quieras) main.cpp
+`g++ -o (El nombre que quieras) main.cpp`
 
 Ejecuta el programa:
 
-    ./(El nombre que pusiste)
+    `./(El nombre que pusiste)`
 
 ## Uso
 
