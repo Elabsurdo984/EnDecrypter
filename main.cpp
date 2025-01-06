@@ -3,7 +3,7 @@
 #include <string>
 using namespace std;
 
-// Función para encriptar el texto
+// Función para encriptar el texto (incluyendo números)
 string encriptar(string texto, int desplazamiento) {
     string texto_encriptado = "";
 
@@ -12,6 +12,8 @@ string encriptar(string texto, int desplazamiento) {
             char base = (islower(c)) ? 'a' : 'A';
             // Desplazamos el carácter y lo agregamos al texto encriptado
             c = (c - base + desplazamiento) % 26 + base;
+        } else if (isdigit(c)) {  // Procesamos los dígitos
+            c = (c - '0' + desplazamiento) % 10 + '0';  // Desplazamos el dígito y lo agregamos
         }
         texto_encriptado += c;
     }
@@ -19,9 +21,9 @@ string encriptar(string texto, int desplazamiento) {
     return texto_encriptado;
 }
 
-// Función para desencriptar el texto
+// Función para desencriptar el texto (incluyendo números)
 string desencriptar(string texto, int desplazamiento) {
-    return encriptar(texto, 26 - desplazamiento);  // Desencriptar es lo mismo que encriptar con desplazamiento invertido
+    return encriptar(texto, 10 - desplazamiento);  // Desencriptar es lo mismo que encriptar con desplazamiento invertido para números
 }
 
 // Función para encriptar un archivo
@@ -149,4 +151,5 @@ int main() {
 
     return 0;
 }
+
 
