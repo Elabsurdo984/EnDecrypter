@@ -1,3 +1,7 @@
+### 1.12.6
+- Cambios en los nombres de las funciones
+- Implementacion Triple DES
+
 ### 1.11
 - Cambio en la estructura
 - Cambio en el codigo

@@ -15,6 +15,7 @@ Una biblioteca Python que proporciona una colección completa de algoritmos de c
     - [Cifrado por Transposición](#cifrado-por-transposición)
     - [Cifrado DES](#cifrado-des)
     - [Cifrado RC4](#cifrado-rc4)
+    - [Triple DES](#triple-des)
     - [Utilidades Binarias](#utilidades-binarias)
   - [Documentación Detallada](#documentación-detallada)
     - [Comparativa de Cifrados](#comparativa-de-cifrados)
@@ -30,7 +31,7 @@ pip install EnDecrypter
 ```
 
 ### Requisitos
-- Python 3.6+
+- Python 3.12+
 - pycryptodome (para cifrados DES)
 
 ## Características
@@ -44,6 +45,7 @@ pip install EnDecrypter
 - 🔐 **Cifrados Modernos**
   - DES
   - RC4
+  - 3DES
   
 - 🛠️ **Utilidades**
   - Conversión Binaria
@@ -80,11 +82,11 @@ alfabeto = MonoalphabeticCipher.generate_substitution_alphabet()
 
 # Cifrar
 mensaje = "Hello World"
-cifrado = MonoalphabeticCipher.encrypt(mensaje, alfabeto)
+cifrado = MonoalphabeticCipher.encrypt_monoalphabetic(mensaje, alfabeto)
 print(f"Texto cifrado: {cifrado}")
 
 # Descifrar
-descifrado = MonoalphabeticCipher.decrypt(cifrado, alfabeto)
+descifrado = MonoalphabeticCipher.decrypt_monoalphabetic(cifrado, alfabeto)
 print(f"Texto descifrado: {descifrado}")  # Hello World
 ```
 
@@ -98,11 +100,11 @@ from endecrypter import PolyalphabeticCipher
 # Cifrar
 mensaje = "HELLO WORLD"
 clave = "KEY"
-cifrado = PolyalphabeticCipher.encrypt(mensaje, clave)
+cifrado = PolyalphabeticCipher.encrypt_polyalphabetic(mensaje, clave)
 print(f"Texto cifrado: {cifrado}")
 
 # Descifrar
-descifrado = PolyalphabeticCipher.decrypt(cifrado, clave)
+descifrado = PolyalphabeticCipher.decrypt_polyalphabetic(cifrado, clave)
 print(f"Texto descifrado: {descifrado}")  # HELLO WORLD
 ```
 
@@ -116,11 +118,11 @@ from endecrypter import TranspositionCipher
 # Cifrar
 mensaje = "Hello World"
 rieles = 3
-cifrado = TranspositionCipher.encrypt(mensaje, rieles)
+cifrado = TranspositionCipher.encrypt_transposition(mensaje, rieles)
 print(f"Texto cifrado: {cifrado}")
 
 # Descifrar
-descifrado = TranspositionCipher.decrypt(cifrado, rieles)
+descifrado = TranspositionCipher.decrypt_transposition(cifrado, rieles)
 print(f"Texto descifrado: {descifrado}")  # Hello World
 ```
 
@@ -136,11 +138,11 @@ clave = b"secretky"
 
 # Cifrar
 mensaje = "Hello World"
-cifrado = DESCipher.encrypt(mensaje, clave)
+cifrado = DESCipher.encrypt_des(mensaje, clave)
 print(f"Texto cifrado (bytes): {cifrado}")
 
 # Descifrar
-descifrado = DESCipher.decrypt(cifrado, clave)
+descifrado = DESCipher.decrypt_des(cifrado, clave)
 print(f"Texto descifrado: {descifrado}")  # Hello World
 ```
 
@@ -156,12 +158,36 @@ clave = b"mi_clave_secreta"
 
 # Cifrar
 mensaje = "Hello World"
-cifrado = RC4Cipher.encrypt(mensaje, clave)
+cifrado = RC4Cipher.encrypt_rc4(mensaje, clave)
 print(f"Texto cifrado (bytes): {cifrado}")
 
 # Descifrar
-descifrado = RC4Cipher.decrypt(cifrado, clave)
+descifrado = RC4Cipher.decrypt_rc4(cifrado, clave)
 print(f"Texto descifrado: {descifrado}")  # Hello World
+```
+
+### Triple DES
+
+Implementacion del Triple DES, DES pero genera 3 llaves mas que el DES
+
+```python
+from endecrypter import TripleDESCipher
+
+# Generar una clave segura
+key = TripleDESCipher.generate_key()
+
+# Cifrar un mensaje
+mensaje = "Información confidencial"
+try:
+    encrypted_data = TripleDESCipher.encrypt(mensaje, key)
+    print("Mensaje cifrado exitosamente")
+
+    # Descifrar el mensaje
+    decrypted_text = TripleDESCipher.decrypt(encrypted_data, key)
+    print(f"Mensaje descifrado: {decrypted_text}")
+
+except ValueError as e:
+    print(f"Error: {e}")
 ```
 
 ### Utilidades Binarias
@@ -193,13 +219,14 @@ print(f"Texto: {texto_recuperado}")  # Hello
 | Transposición | Clásico | Número | Baja | Educativo |
 | DES | Moderno | 8 bytes | Media-Alta | Datos sensibles |
 | RC4 | Moderno | Variable | Media | Datos sensibles |
-| Binario | Clasico | Texto | Muy Baja | Educativo |
+| Binario | Util | Texto | Muy Baja | Educativo |
+| 3DES | Moderno | 24 bytes | Alta | Datos comunes |
 
 ### Consideraciones de Seguridad
 
 - Los cifrados clásicos son **solo para fines educativos**
 - DES y RC4, aunque más seguros, pueden no ser suficientes para datos altamente sensibles
-- Para máxima seguridad, considere usar algoritmos más modernos como AES
+- Para máxima seguridad, considere usar algoritmos más modernos como AES o si no pruebe usando 3DES ya implementado
 
 ## Contribuir
 

@@ -12,7 +12,7 @@ class RC4Cipher:
         return S
 
     @staticmethod
-    def encrypt(text: str, key: bytes) -> bytes:
+    def encrypt_rc4(text: str, key: bytes) -> bytes:
         S = RC4Cipher._init_sbox(key)
         i = j = 0
         result = []
@@ -27,7 +27,7 @@ class RC4Cipher:
         return bytes(result)
 
     @staticmethod
-    def decrypt(encrypted_text: bytes, key: bytes) -> str:
+    def decrypt_rc4(encrypted_text: bytes, key: bytes) -> str:
         S = RC4Cipher._init_sbox(key)
         i = j = 0
         result = []

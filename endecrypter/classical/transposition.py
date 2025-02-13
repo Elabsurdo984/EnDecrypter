@@ -1,6 +1,6 @@
 class TranspositionCipher:
     @staticmethod
-    def encrypt(text: str, rails: int) -> str:
+    def encrypt_transposition(text: str, rails: int) -> str:
         if rails < 2:
             return text
             
@@ -19,7 +19,7 @@ class TranspositionCipher:
         return ''.join(''.join(rail) for rail in fence)
 
     @staticmethod
-    def decrypt(text: str, rails: int) -> str:
+    def decrypt_transposition(text: str, rails: int) -> str:
         if rails < 2 or not text:
             return text
             

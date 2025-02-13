@@ -10,7 +10,7 @@ class MonoalphabeticCipher:
         return dict(zip(alphabet, substitute_alphabet))
 
     @staticmethod
-    def encrypt(text: str, substitution_alphabet: dict) -> str:
+    def encrypt_monoalphabetic(text: str, substitution_alphabet: dict) -> str:
         result = []
         for char in text:
             if char.lower() in substitution_alphabet:
@@ -21,6 +21,6 @@ class MonoalphabeticCipher:
         return ''.join(result)
 
     @staticmethod
-    def decrypt(text: str, substitution_alphabet: dict) -> str:
+    def decrypt_monoalphabetic(text: str, substitution_alphabet: dict) -> str:
         inverse_alphabet = {v: k for k, v in substitution_alphabet.items()}
         return MonoalphabeticCipher.encrypt(text, inverse_alphabet)

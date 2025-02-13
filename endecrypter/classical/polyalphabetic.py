@@ -6,7 +6,7 @@ class PolyalphabeticCipher:
         return ''.join(c for c in text.upper() if c in string.ascii_uppercase)
 
     @staticmethod
-    def encrypt(text: str, key: str) -> str:
+    def encrypt_polyalphabetic(text: str, key: str) -> str:
         alphabet = string.ascii_uppercase
         clean_text = PolyalphabeticCipher._clean_text(text)
         clean_key = PolyalphabeticCipher._clean_text(key)
@@ -22,7 +22,7 @@ class PolyalphabeticCipher:
         return ''.join(result)
 
     @staticmethod
-    def decrypt(text: str, key: str) -> str:
+    def decrypt_polyalphabetic(text: str, key: str) -> str:
         alphabet = string.ascii_uppercase
         clean_text = PolyalphabeticCipher._clean_text(text)
         clean_key = PolyalphabeticCipher._clean_text(key)
