@@ -193,7 +193,7 @@ print(f"Texto: {texto_recuperado}")  # Hello
 | Transposición | Clásico | Número | Baja | Educativo |
 | DES | Moderno | 8 bytes | Media-Alta | Datos sensibles |
 | RC4 | Moderno | Variable | Media | Datos sensibles |
-| Binario | Util | Clasico | Muy Baja | Educativo
+| Binario | Clasico | Texto | Muy Baja | Educativo |
 
 ### Consideraciones de Seguridad
 
