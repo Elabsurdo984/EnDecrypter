@@ -60,11 +60,11 @@ from endecrypter import CaesarCipher
 # Cifrar un mensaje
 mensaje = "Hello World"
 desplazamiento = 3
-cifrado = CaesarCipher.encrypt(mensaje, desplazamiento)
+cifrado = CaesarCipher.encrypt_caesar(mensaje, desplazamiento)
 print(f"Texto cifrado: {cifrado}")  # Khoor Zruog
 
 # Descifrar el mensaje
-descifrado = CaesarCipher.decrypt(cifrado, desplazamiento)
+descifrado = CaesarCipher.decrypt_caesar(cifrado, desplazamiento)
 print(f"Texto descifrado: {descifrado}")  # Hello World
 ```
 
