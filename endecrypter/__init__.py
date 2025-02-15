@@ -1,5 +1,5 @@
 from endecrypter.classical import CaesarCipher, MonoalphabeticCipher, PolyalphabeticCipher, TranspositionCipher
-from endecrypter.modern import DESCipher, RC4Cipher
+from endecrypter.modern import DESCipher, TripleDESCipher, RC4Cipher, RC5Cipher, RC6Cipher
 from endecrypter.utils import Binary
 
 
@@ -9,6 +9,9 @@ __all__ = [
     'PolyalphabeticCipher',
     'TranspositionCipher',
     'DESCipher',
+    'TripleDESCipher',
     'RC4Cipher',
+    'RC5Cipher',
+    'RC6Cipher',
     'Binary'
 ]
