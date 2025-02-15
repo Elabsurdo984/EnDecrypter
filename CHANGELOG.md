@@ -1,3 +1,7 @@
+### 1.14.7
+- Implementacion del Rivest Cipher 5
+- Implementacion del Rivest Cipher 6
+
 ### 1.12.6
 - Cambios en los nombres de las funciones
 - Implementacion Triple DES

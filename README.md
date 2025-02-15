@@ -15,6 +15,8 @@ Una biblioteca Python que proporciona una colección completa de algoritmos de c
     - [Cifrado por Transposición](#cifrado-por-transposición)
     - [Cifrado DES](#cifrado-des)
     - [Cifrado RC4](#cifrado-rc4)
+    - [Cifrado RC5](#cifrado-rc5)
+    - [Cifrado RC6](#cifrado-rc6)
     - [Triple DES](#triple-des)
     - [Utilidades Binarias](#utilidades-binarias)
   - [Documentación Detallada](#documentación-detallada)
@@ -45,6 +47,8 @@ pip install EnDecrypter
 - 🔐 **Cifrados Modernos**
   - DES
   - RC4
+  - RC5
+  - RC6
   - 3DES
   
 - 🛠️ **Utilidades**
@@ -166,6 +170,53 @@ descifrado = RC4Cipher.decrypt_rc4(cifrado, clave)
 print(f"Texto descifrado: {descifrado}")  # Hello World
 ```
 
+### Cifrado RC5
+
+Implementacion del algoritmo de cifrado RC5
+
+```python
+from endecrypter import RC5Cipher
+
+# Generar una clave aleatoria de 16 bytes
+key = RC5Cipher.generate_key(16)
+
+# Texto a cifrar
+mensaje = "Texto secreto"
+
+try:
+    # Cifrar el mensaje
+    datos_cifrados = RC5Cipher.encrypt_rc5(mensaje, key)
+    print("Mensaje cifrado: {datos_cifrados}")
+
+    # Descifrar el mensaje
+    texto_descifrado = RC5Cipher.decrypt_rc5(datos_cifrados, key)
+    print(f"Mensaje descifrado: {texto_descifrado}")
+
+except Exception as e:
+    print(f"Error: {e}")
+```
+
+### Cifrado RC6
+
+Implementacion del Cifrado RC6, el RC5 mejorado
+
+```python
+from endecrypter import RC6Cipher
+
+rc6 = RC6Cipher()
+key = rc6.generate_key(16)
+texto = "Mensaje secreto"
+
+# Cifrar
+cifrado = rc6.encrypt_rc6(texto, key)
+print(cifrado)
+
+
+# Descifrar
+descifrado = rc6.decrypt_rc6(cifrado, key)
+print(descifrado)
+```
+
 ### Triple DES
 
 Implementacion del Triple DES, DES pero genera 3 llaves mas que el DES
@@ -220,7 +271,9 @@ print(f"Texto: {texto_recuperado}")  # Hello
 | DES | Moderno | 8 bytes | Media-Alta | Datos sensibles |
 | RC4 | Moderno | Variable | Media | Datos sensibles |
 | Binario | Util | Texto | Muy Baja | Educativo |
-| 3DES | Moderno | 24 bytes | Alta | Datos comunes |
+| 3DES | Moderno | 3 de 24 bytes | Alta | Datos comunes |
+| RC5 | Moderno | 16 bytes | Media-Alta | Datos sensibles |
+| RC6 | Moderno | 16 bytes | Alta | Datos sensibles |
 
 ### Consideraciones de Seguridad
 
