@@ -2,10 +2,11 @@ from setuptools import setup, find_packages
 
 setup(
     name="endecrypter",
-    version="1.14.7",
+    version="1.15.10",
     packages=find_packages(),
     install_requires=[
         "pycryptodome>=3.21.0",
+        "numpy>=2.0.2"
     ],
     author="Elabsurdo984",
     author_email="matiassfernandez00@gmail.com",

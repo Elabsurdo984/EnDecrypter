@@ -13,6 +13,7 @@ Una biblioteca Python que proporciona una colección completa de algoritmos de c
     - [Cifrado Monoalfabético](#cifrado-monoalfabético)
     - [Cifrado Polialfabético](#cifrado-polialfabético)
     - [Cifrado por Transposición](#cifrado-por-transposición)
+    - [Cifrado Hill](#cifrado-hill)
     - [Cifrado DES](#cifrado-des)
     - [Cifrado RC4](#cifrado-rc4)
     - [Cifrado RC5](#cifrado-rc5)
@@ -21,7 +22,6 @@ Una biblioteca Python que proporciona una colección completa de algoritmos de c
     - [Utilidades Binarias](#utilidades-binarias)
   - [Documentación Detallada](#documentación-detallada)
     - [Comparativa de Cifrados](#comparativa-de-cifrados)
-    - [Consideraciones de Seguridad](#consideraciones-de-seguridad)
   - [Contribuir](#contribuir)
     - [Guía de Contribución](#guía-de-contribución)
   - [Licencia](#licencia)
@@ -29,12 +29,13 @@ Una biblioteca Python que proporciona una colección completa de algoritmos de c
 ## Instalación
 
 ```bash
-pip install EnDecrypter
+pip install endecrypter
 ```
 
 ### Requisitos
 - Python 3.12+
-- pycryptodome (para cifrados DES)
+- pycryptodome (para cifrados DES, 3DES)
+- NumPy (Para cifrados Hill)
 
 ## Características
 
@@ -43,6 +44,7 @@ pip install EnDecrypter
   - Monoalfabético
   - Polialfabético (Vigenère)
   - Transposición (Rail Fence)
+  - Hill
   
 - 🔐 **Cifrados Modernos**
   - DES
@@ -58,7 +60,7 @@ pip install EnDecrypter
 
 ### Cifrado César
 
-El cifrado César desplaza cada letra del alfabeto un número fijo de posiciones.
+El cifrado César es un tipo de cifrado por sustitución en el que cada letra del texto claro se reemplaza por una letra que se encuentra un número fijo de posiciones más adelante en el alfabeto. Este número fijo es conocido como **"desplazamiento"**.
 
 ```python
 from endecrypter import CaesarCipher
@@ -76,7 +78,7 @@ print(f"Texto descifrado: {descifrado}")  # Hello World
 
 ### Cifrado Monoalfabético
 
-Sustituye cada letra por otra según un alfabeto de sustitución aleatorio.
+El **cifrado monoalfabético** es un tipo de cifrado por sustitución en el que cada letra del texto claro se sustituye por una letra diferente del alfabeto, pero siempre de manera fija. Es decir, cada letra del alfabeto se reemplaza por otra letra del alfabeto de forma constante, sin importar su posición en el mensaje.
 
 ```python
 from endecrypter import MonoalphabeticCipher
@@ -96,7 +98,7 @@ print(f"Texto descifrado: {descifrado}")  # Hello World
 
 ### Cifrado Polialfabético
 
-Implementación del cifrado Vigenère que usa una palabra clave para cifrar.
+El **cifrado polialfabético** es un tipo de cifrado por sustitución en el que se utilizan varios alfabetos para cifrar un mensaje, en lugar de un solo alfabeto como en el cifrado monoalfabético. Esto hace que el cifrado sea más seguro, ya que cada letra del texto claro puede ser sustituida por una letra diferente según una serie de reglas, lo que dificulta la tarea de los atacantes.
 
 ```python
 from endecrypter import PolyalphabeticCipher
@@ -114,7 +116,7 @@ print(f"Texto descifrado: {descifrado}")  # HELLO WORLD
 
 ### Cifrado por Transposición
 
-Implementación del cifrado Rail Fence que reordena las letras en un patrón zigzag.
+El **cifrado de transposición** es un tipo de cifrado en el que el orden de las letras del mensaje se reorganiza, pero sin cambiar las propias letras. A diferencia de los cifrados por sustitución (como el cifrado César o monoalfabético), que modifican las letras del mensaje, el cifrado de transposición solo altera la posición de las letras.
 
 ```python
 from endecrypter import TranspositionCipher
@@ -130,9 +132,37 @@ descifrado = TranspositionCipher.decrypt_transposition(cifrado, rieles)
 print(f"Texto descifrado: {descifrado}")  # Hello World
 ```
 
+### Cifrado Hill
+
+El **cifrado Hill** es un algoritmo de cifrado por sustitución polialfabética que utiliza álgebra lineal para cifrar y descifrar mensajes. Fue desarrollado por Lester S. Hill en 1929 y es uno de los primeros métodos de cifrado en usar matrices. Este cifrado se basa en la idea de tratar el texto claro como un conjunto de vectores y las letras del mensaje se representan numéricamente, generalmente usando el sistema de asignación A=0, B=1, C=2, y así sucesivamente.
+
+```python
+from endecrypter import HillCipher
+
+# Matriz clave 2x2
+key = [
+    [2, 3],
+    [3, 6]
+]
+
+try:
+    # Aseguramos que el texto sea un string
+    text = "hello"
+    print(f"Texto original: {text}")
+    
+    encrypted, padding_count = HillCipher.encrypt_hill(text, key)
+    print(f"Texto encriptado: {encrypted}")
+    
+    decrypted = HillCipher.decrypt_hill(encrypted, key, padding_count)
+    print(f"Texto desencriptado: {decrypted}")
+
+except Exception as e:
+    print(f"Error: {type(e).__name__} - {str(e)}")
+```
+
 ### Cifrado DES
 
-Implementación del algoritmo DES (Data Encryption Standard).
+El **cifrado DES** (Data Encryption Standard) es un algoritmo de cifrado simétrico que utiliza una clave de 56 bits para cifrar bloques de 64 bits de datos. Funciona dividiendo el bloque de datos en dos mitades de 32 bits, y luego realiza 16 rondas de transformación utilizando operaciones de sustitución y permutación, aplicando la clave en cada ronda. La estructura del algoritmo sigue el modelo de red de Feistel, donde una mitad del bloque se modifica en función de la otra. Aunque DES fue un estándar de seguridad ampliamente utilizado, su clave corta lo hace vulnerable a ataques de fuerza bruta, y fue reemplazado por el más seguro AES.
 
 ```python
 from endecrypter import DESCipher
@@ -152,7 +182,7 @@ print(f"Texto descifrado: {descifrado}")  # Hello World
 
 ### Cifrado RC4
 
-Implementación del algoritmo de cifrado de flujo RC4.
+**RC4** es un algoritmo de cifrado simétrico de flujo, desarrollado por Ron Rivest en 1987. Funciona generando una secuencia de claves pseudoaleatorias de longitud variable a partir de una clave inicial, que luego se combina con el texto claro mediante una operación de XOR (o exclusivo). El proceso de generación de la secuencia de claves se basa en una tabla de estado que se va modificando continuamente durante la operación, lo que permite cifrar los datos bit por bit. Aunque RC4 fue ampliamente utilizado en protocolos como SSL/TLS y WEP, su seguridad ha sido comprometida por diversas vulnerabilidades.
 
 ```python
 from endecrypter import RC4Cipher
@@ -172,7 +202,7 @@ print(f"Texto descifrado: {descifrado}")  # Hello World
 
 ### Cifrado RC5
 
-Implementacion del algoritmo de cifrado RC5
+**RC5** es un algoritmo de cifrado simétrico de bloques desarrollado por Ron Rivest en 1994. Funciona mediante una estructura de red de Feistel, y permite personalizar varios parámetros clave, como el tamaño de la clave, el número de rondas y el tamaño del bloque de datos, lo que le da flexibilidad y adaptabilidad a diferentes aplicaciones. El algoritmo usa una clave de longitud variable (de 0 a 2040 bits) y cifra bloques de datos de 32, 64 o 128 bits. RC5 aplica una serie de transformaciones, que incluyen permutaciones y sustituciones, a los bloques de datos durante un número de rondas definido por la clave.
 
 ```python
 from endecrypter import RC5Cipher
@@ -198,7 +228,7 @@ except Exception as e:
 
 ### Cifrado RC6
 
-Implementacion del Cifrado RC6, el RC5 mejorado
+**RC6** es un algoritmo de cifrado simétrico de bloques desarrollado por Ron Rivest, Mahesh Rao, y Robert Sidney en 1997 como una extensión de RC5. RC6 fue uno de los finalistas en la competición para seleccionar el nuevo estándar de cifrado AES, aunque no fue elegido. Al igual que RC5, RC6 utiliza una estructura de red de Feistel, pero con mejoras que lo hacen más seguro y eficiente. RC6 permite bloques de datos de 128 bits y soporta claves de longitud variable (de 128, 192 o 256 bits). Además, utiliza una versión extendida de las operaciones de permutación y sustitución, y un número variable de rondas (de 20, 12 o 8, dependiendo de la longitud de la clave). A diferencia de RC5, RC6 incorpora un multiplicador en sus transformaciones, lo que aumenta su seguridad frente a ataques. Aunque no fue adoptado como AES, sigue siendo una opción robusta para aplicaciones que requieren un alto nivel de seguridad.
 
 ```python
 from endecrypter import RC6Cipher
@@ -219,7 +249,7 @@ print(descifrado)
 
 ### Triple DES
 
-Implementacion del Triple DES, DES pero genera 3 llaves mas que el DES
+**Triple DES (3DES)** es una variante del algoritmo DES diseñada para mejorar la seguridad de DES, que se volvió vulnerable debido a la corta longitud de su clave. 3DES aplica el algoritmo DES tres veces de manera secuencial sobre el mismo bloque de datos, utilizando tres claves diferentes (o la misma clave en algunos casos). Este proceso puede realizarse de tres formas diferentes: **EDE** (Encrypt-Decrypt-Encrypt), donde primero se cifra, luego se descifra y finalmente se cifra de nuevo, lo que mejora considerablemente la seguridad. Con tres aplicaciones de DES, 3DES efectivamente aumenta el tamaño de la clave a 168 bits (o 112 bits si se reutilizan algunas claves), lo que hace más difícil de romper mediante ataques de fuerza bruta. Aunque 3DES fue una mejora significativa sobre DES, sigue siendo relativamente lento en comparación con algoritmos más modernos, como **AES**, y debido a su vulnerabilidad a ciertos ataques, ha sido descontinuado para muchas aplicaciones y reemplazado por AES.
 
 ```python
 from endecrypter import TripleDESCipher
@@ -243,7 +273,9 @@ except ValueError as e:
 
 ### Utilidades Binarias
 
-Herramientas para conversión entre texto y formato binario.
+El **binario** es un sistema numérico basado en dos dígitos: 0 y 1, conocido como sistema de numeración base 2. Cada cifra en un número binario se llama bit (binary digit), y es la unidad mínima de información en informática. El sistema binario es fundamental en la computación porque los ordenadores procesan y almacenan datos en esta forma, ya que los circuitos electrónicos solo pueden representar dos estados posibles: encendido (1) o apagado (0).
+
+En el sistema binario, los números se representan utilizando combinaciones de 0s y 1s. Por ejemplo, el número binario 1010 representa el número decimal 10. Cada posición en un número binario tiene un valor que es una potencia de 2, comenzando desde la derecha con 2^0, 2^1, 2^2, y así sucesivamente. Para convertir un número binario a decimal, se suman los valores de las posiciones donde hay un 1.
 
 ```python
 from endecrypter import Binary
@@ -268,18 +300,13 @@ print(f"Texto: {texto_recuperado}")  # Hello
 | Monoalfabético | Clásico | Alfabeto | Baja | Educativo |
 | Polialfabético | Clásico | Texto | Baja-Media | Educativo |
 | Transposición | Clásico | Número | Baja | Educativo |
+| Hill | Clasico | Matriz n * n | Baja-Media | Educativo |
 | DES | Moderno | 8 bytes | Media-Alta | Datos sensibles |
 | RC4 | Moderno | Variable | Media | Datos sensibles |
 | Binario | Util | Texto | Muy Baja | Educativo |
 | 3DES | Moderno | 3 de 24 bytes | Alta | Datos comunes |
 | RC5 | Moderno | 16 bytes | Media-Alta | Datos sensibles |
 | RC6 | Moderno | 16 bytes | Alta | Datos sensibles |
-
-### Consideraciones de Seguridad
-
-- Los cifrados clásicos son **solo para fines educativos**
-- DES y RC4, aunque más seguros, pueden no ser suficientes para datos altamente sensibles
-- Para máxima seguridad, considere usar algoritmos más modernos como AES o si no pruebe usando 3DES ya implementado
 
 ## Contribuir
 
